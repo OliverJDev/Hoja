@@ -10,5 +10,4 @@ entities, serilization/deserilization and data storage, easy to make GUI's and m
 - [`Configs`](https://github.com/OliverJDev/Hoja/tree/master/src/main/java/me/tabbin/config) - easy to use configs, created directly from the variables.
 - [`Entities`](https://github.com/OliverJDev/Hoja/tree/master/src/main/java/me/tabbin/entity) - entities are general objects that require data storage, i.e. players, mines, minigames etc...
 
-
-More Coming Soon
+This helper was inspired by the now deprecated, [MassiveCore](https://github.com/MassiveCraft/MassiveCore)
