@@ -6,7 +6,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public abstract class HojaConfig extends CustomConfig{
 
-    public HojaConfig(String name) {
+    public HojaConfig(String name, HojaPlugin plugin) {
+        setPlugin(plugin);
         setName(name);
         HojaPlugin.getHojaPlugin().log("Loading Config (" + name +  ".yml)");
         new BukkitRunnable(){

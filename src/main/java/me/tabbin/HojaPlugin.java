@@ -9,13 +9,19 @@ import me.tabbin.entity.EntityStorage;
 import me.tabbin.util.Utility;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.LinkedList;
 
-public class HojaPlugin extends JavaPlugin implements HojaPluginI  {
+public class HojaPlugin extends JavaPlugin implements HojaPluginI {
 
     @Getter
     private static HojaPlugin hojaPlugin;
+
+    @Override
+    public HojaPlugin getPlugin() {
+        return this;
+    }
 
     @Getter
     private String pluginName;
@@ -29,8 +35,9 @@ public class HojaPlugin extends JavaPlugin implements HojaPluginI  {
 
     @Override
     public void onEnable() {
-       hojaPlugin = this;
-        this.pluginName = this.getDescription().getName();
+        if (this.getName().equalsIgnoreCase("hoja")) hojaPlugin = this;
+
+        this.pluginName = this.getName();
         long enableTime = System.currentTimeMillis();
         log("&7*- &9Plugin Loading &7*-");
 
@@ -41,25 +48,26 @@ public class HojaPlugin extends JavaPlugin implements HojaPluginI  {
 
 
         onPostEnableHojaPlugin();
-        log("&7*- &9Plugin Finished Loading &7(" + enableTime +"ms) *-");
+        log("&7*- &9Plugin Finished Loading &7(" + enableTime + "ms) *-");
 
     }
+
     @Override
     public void onDisable() {
-         long disableTime = System.currentTimeMillis();
+        long disableTime = System.currentTimeMillis();
         log("&7*- &9Plugin Disabling &7*-");
         onDisableHojaPlugin();
         disableTime = (System.currentTimeMillis() - disableTime);
         saveEntity();
         onPostDisableHojaPlugin();
-        log("&7*- &9Plugin Finished Disabling &7(" + disableTime +"ms) *-");
+        log("&7*- &9Plugin Finished Disabling &7(" + disableTime + "ms) *-");
     }
 
 
     @Override
     public void onEnableHojaPlugin() {
         this.commandRegister = new HojaCommandRegister();
-        this.messageConfig = new MessageConfig();
+        this.messageConfig = new MessageConfig(this);
 
         //TEST
         new TestCommand();
@@ -81,9 +89,8 @@ public class HojaPlugin extends JavaPlugin implements HojaPluginI  {
     }
 
     @Override
-    public void log(String msg)
-    {
-        getServer().getConsoleSender().sendMessage(Utility.addColor(ChatColor.BLUE + pluginName + ChatColor.GRAY + " - " + ChatColor.BLUE +  msg));
+    public void log(String msg) {
+        getServer().getConsoleSender().sendMessage(Utility.addColor(ChatColor.BLUE + pluginName + ChatColor.GRAY + " - " + ChatColor.BLUE + msg));
     }
 
     @Override
@@ -91,7 +98,7 @@ public class HojaPlugin extends JavaPlugin implements HojaPluginI  {
         Gson gson = new Gson();
 
         for (EntityStorage<?> activeEntityStorage : activeEntityStorages) {
-            activeEntityStorage.getAll().forEach((id,obj)->{
+            activeEntityStorage.getAll().forEach((id, obj) -> {
                 getConfig().set("test-json", gson.toJson(obj));
             });
         }
@@ -99,7 +106,7 @@ public class HojaPlugin extends JavaPlugin implements HojaPluginI  {
         saveConfig();
     }
 
-     @Override
+    @Override
     public void addActiveEntityStorage(EntityStorage<?> entityStorage) {
         activeEntityStorages.add(entityStorage);
     }
