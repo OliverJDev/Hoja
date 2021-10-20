@@ -11,6 +11,8 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
+        <server.location>${env.SERVER_TEMP}</server.location>
+
     </properties>
 
     <repositories>
@@ -25,6 +27,7 @@
             <layout>default</layout>
         </repository>
     </repositories>
+
 
     <build>
         <plugins>
@@ -50,55 +53,23 @@
                         </goals>
                         <configuration>
                             <shadedArtifactAttached>false</shadedArtifactAttached>
-                            <finalName>${artifactId}</finalName>
-                            <outputDirectory>C:\Users\Tabbin\Desktop\Farm Server\1.17 Server\plugins\</outputDirectory>
+                            <finalName>${project.artifactId}</finalName>
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.8</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <configuration>
-                            <target>
-                                <delete file="C:\Users\Tabbin\Desktop\Farm Server\1.17 Server\plugins\original-Hoja.jar"/>
-                                <delete file="C:\Users\Tabbin\Desktop\Farm Server\1.17 Server\plugins\Hoja-1.0-shaded.jar"/>
-                            </target>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-    <!--<build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.1</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <encoding>UTF-8</encoding>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.3.1</version>
                 <configuration>
-                    <outputDirectory>C:\Users\Tabbin\Desktop\Farm Server\1.17 Server\plugins</outputDirectory>
+                    <outputDirectory>${server.location}</outputDirectory>
+                    <finalName>${project.artifactId}</finalName>
                 </configuration>
             </plugin>
         </plugins>
-    </build>-->
+    </build>
+
 
     <dependencies>
         <dependency>

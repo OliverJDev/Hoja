@@ -4,6 +4,7 @@ package me.tabbin.config;
 import lombok.Getter;
 import lombok.Setter;
 import me.tabbin.HojaPlugin;
+import me.tabbin.HojaPluginI;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -21,11 +22,16 @@ public class CustomConfig {
     private String name;
     private FileConfiguration config;
     private File file;
+    private HojaPlugin plugin;
 
     public void loadOrCreate() {
-        file = new File(HojaPlugin.getHojaPlugin().getDataFolder(), name + ".yml");
+        if(plugin.getResource(name + ".yml") == null){
+            return;
+        }
+
+        file = new File(plugin.getDataFolder(), name + ".yml");
         if (!file.exists()) {
-            HojaPlugin.getHojaPlugin().saveResource(name + ".yml", false);
+            plugin.saveResource(name + ".yml", false);
             file.getParentFile().mkdirs();
         }
         config = new YamlConfiguration();
@@ -92,9 +98,9 @@ public class CustomConfig {
         }
     }
     public void reloadConfig() {
-        file = new File(HojaPlugin.getHojaPlugin().getDataFolder(), name + ".yml");
+        file = new File(plugin.getDataFolder(), name + ".yml");
         if (!file.exists()) {
-            HojaPlugin.getHojaPlugin().saveResource(name + ".yml", false);
+            plugin.saveResource(name + ".yml", false);
             file.getParentFile().mkdirs();
         }
         config = new YamlConfiguration();

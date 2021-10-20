@@ -4,6 +4,7 @@ import me.tabbin.entity.EntityStorage;
 
 public interface HojaPluginI {
 
+    HojaPlugin getPlugin();
     void onEnableHojaPlugin();
     void onDisableHojaPlugin();
 
