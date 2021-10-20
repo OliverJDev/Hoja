@@ -27,7 +27,6 @@ public class HojaCommandBukkit extends Command implements PluginIdentifiableComm
         setHojaCommand(hojaCommand);
     }
 
-
     @Override
     public boolean execute(CommandSender sender, String s, String[] args) {
         getHojaCommand().setSender((Player) sender);

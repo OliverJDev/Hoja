@@ -1,0 +1,8 @@
+name: Hoja
+version: 1.0
+description: A Utility Plugin
+api-version: 1.17
+author: Tabbin
+main: me.tabbin.HojaPlugin
+load: STARTUP
+commands:
