@@ -4,7 +4,7 @@ package me.tabbin.config;
 import me.tabbin.HojaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public abstract class HojaConfig extends CustomConfig{
+public abstract class HojaConfig extends YMLConfig {
 
     public HojaConfig(String name, HojaPlugin plugin) {
         setPlugin(plugin);

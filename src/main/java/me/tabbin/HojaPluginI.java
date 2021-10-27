@@ -1,6 +1,7 @@
 package me.tabbin;
 
 import me.tabbin.entity.EntityStorage;
+import org.bukkit.event.Listener;
 
 public interface HojaPluginI {
 
@@ -12,7 +13,7 @@ public interface HojaPluginI {
     void onPostDisableHojaPlugin();
 
     void log(String msg);
-    void saveEntity();
 
-    void addActiveEntityStorage(EntityStorage<?> entityStorage);
+    void addListener(Listener listener);
+
 }

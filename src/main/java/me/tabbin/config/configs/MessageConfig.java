@@ -9,7 +9,9 @@ public class MessageConfig extends HojaConfig {
     public static MessageConfig get() { return i; }
     private static void set(MessageConfig conf) { i = conf; }
 
-    public String IntegerType0Invalid = "&7Invalid Number Format '&c%arg%&7'!";
+    public String InvalidType = "&7Invalid %arg% Format '&c%arg%&7'!";
+    public String MissingArgumentCommand= "&7Incorrect Usage, correct usage &c%arg%&7! (Missing %arg%)";
+    public String InvalidArgumentCommand = "&7Incorrect Usage, correct usage &c%arg%&7! (%arg%)";
 
     public MessageConfig(HojaPlugin plugin) {
         super("messages", plugin);

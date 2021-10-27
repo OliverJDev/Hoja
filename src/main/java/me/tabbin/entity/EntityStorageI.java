@@ -2,8 +2,9 @@ package me.tabbin.entity;
 
 import java.util.Map;
 
-public interface EntityStorageI<T> {
+public interface EntityStorageI {
 
-    Map<String, T> getAll();
-    T get(String id);
+    void addEntity(Entity entity, String id);
+    Map<String, Entity> getAll();
+    Entity get(String id);
 }

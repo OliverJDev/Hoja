@@ -1,7 +1,9 @@
 package me.tabbin.commands.parameters.ptypes;
 
+import me.tabbin.commands.HojaCommand;
 import me.tabbin.commands.parameters.PTypeI;
 import me.tabbin.config.configs.MessageConfig;
+import me.tabbin.util.MessageUtil;
 import me.tabbin.util.Utility;
 import org.bukkit.command.CommandSender;
 
@@ -10,6 +12,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class IntegerType implements PTypeI<Integer> {
+
+
+    private static IntegerType i = new IntegerType();
+    public static IntegerType get() { return i; }
 
     @Override
     public String getName() {
@@ -22,11 +28,12 @@ public class IntegerType implements PTypeI<Integer> {
     }
 
     @Override
-    public Integer parse(CommandSender sender, String arg) {
+    public Integer parse(HojaCommand command, String arg) {
         if(!isInteger(arg)){
-           // sender.sendMessage(Utility.addColor(MessageConfig.get().IntegerType0Invalid));
+            MessageUtil.msgConfig(command.getSender(), MessageConfig.get().InvalidArgumentCommand, command.getCorrectUsage(), MessageUtil.parseString(MessageConfig.get().InvalidType, getName(), arg));
+            return null;
         }
-        return null;
+        return Integer.parseInt(arg);
     }
 
     @Override

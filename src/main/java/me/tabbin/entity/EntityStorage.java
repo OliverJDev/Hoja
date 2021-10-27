@@ -5,21 +5,29 @@ import me.tabbin.HojaPlugin;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EntityStorage<E> implements EntityStorageI<E> {
+public class EntityStorage implements EntityStorageI {
 
-    private Map<String, E> entityList = new HashMap<>();
+    private Class<Entity> type;
 
-    public EntityStorage(){
-        //HojaPlugin.getHojaPlugin().addActiveEntityStorage(this);
+    private Map<String, Entity> entityList = new HashMap<>();
+
+    public EntityStorage(HojaPlugin instance, Class type){
+        this.type = type;
+        instance.getEntityStorageManager().getEntityStorages().put(type, this);
     }
 
     @Override
-    public Map<String, E> getAll() {
+    public void addEntity(Entity entity, String id) {
+        entityList.put(id, entity);
+    }
+
+    @Override
+    public Map<String, Entity> getAll() {
         return entityList;
     }
 
     @Override
-    public E get(String id) {
+    public Entity get(String id) {
         return entityList.get(id);
     }
 }
