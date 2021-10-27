@@ -1,23 +1,17 @@
 package me.tabbin;
 
-import com.google.gson.Gson;
 import lombok.Getter;
 import me.tabbin.commands.HojaCommandRegister;
 import me.tabbin.commands.commands.TestCommand;
 import me.tabbin.config.configs.MessageConfig;
-import me.tabbin.config.configs.TestJson;
-import me.tabbin.entity.Entity;
-import me.tabbin.entity.EntityStorage;
 import me.tabbin.entity.EntityStorageManager;
 import me.tabbin.entity.test.TestEntity;
 import me.tabbin.util.Utility;
 import org.bukkit.ChatColor;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class HojaPlugin extends JavaPlugin implements HojaPluginI {
@@ -78,6 +72,9 @@ public class HojaPlugin extends JavaPlugin implements HojaPluginI {
     public void onDisable() {
         long disableTime = System.currentTimeMillis();
         log("&7*- &9Plugin Disabling &7*-");
+
+        //SAVE DATA
+        getEntityStorageManager().sync();
         onDisableHojaPlugin();
         disableTime = (System.currentTimeMillis() - disableTime);
         onPostDisableHojaPlugin();
@@ -92,12 +89,7 @@ public class HojaPlugin extends JavaPlugin implements HojaPluginI {
          */
         new TestCommand();
         this.messageConfig = new MessageConfig(this);
-        TestJson json = new TestJson();
 
-
-        new TestEntity("asdas");
-        new TestEntity("dagfv");
-        json.write(getEntityStorageManager().getEntityStorages().get(TestEntity.class).getAll());
 
     }
 
