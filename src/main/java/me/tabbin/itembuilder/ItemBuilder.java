@@ -1,5 +1,8 @@
-package me.tabbin.util;
+package me.tabbin.itembuilder;
 
+import de.tr7zw.nbtapi.NBTItem;
+import me.tabbin.HojaPlugin;
+import me.tabbin.itembuilder.events.ItemEvent;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -225,4 +228,13 @@ public class ItemBuilder {
     public ItemStack toItemStack(){
         return is;
     }
+
+    public ItemBuilder addClickEvent(ItemEvent event, HojaPlugin plugin){
+        plugin.getItemEvents().addClick(event.getKey(), event);
+        NBTItem nbtItem = new NBTItem(is);
+        nbtItem.setBoolean(event.getKey(), true);
+        is = nbtItem.getItem();
+        return this;
+    }
+
 }

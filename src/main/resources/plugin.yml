@@ -5,4 +5,5 @@ api-version: 1.17
 author: Tabbin
 main: me.tabbin.HojaPlugin
 load: STARTUP
+depend: [NBTAPI]
 commands:

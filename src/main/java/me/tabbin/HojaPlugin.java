@@ -6,10 +6,20 @@ import me.tabbin.commands.commands.TestCommand;
 import me.tabbin.config.configs.MessageConfig;
 import me.tabbin.entity.EntityStorageManager;
 import me.tabbin.entity.test.TestEntity;
+import me.tabbin.itembuilder.ItemBuilder;
+import me.tabbin.itembuilder.ItemEvents;
+import me.tabbin.itembuilder.ItemEventsListener;
+import me.tabbin.itembuilder.events.ItemClickEvent;
 import me.tabbin.util.Utility;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +39,8 @@ public class HojaPlugin extends JavaPlugin implements HojaPluginI {
 
     @Getter
     private EntityStorageManager entityStorageManager;
+    @Getter
+    private ItemEvents itemEvents;
 
     private List<Listener> listeners = new ArrayList<>();
 
@@ -46,6 +58,9 @@ public class HojaPlugin extends JavaPlugin implements HojaPluginI {
         //ENTITY STORAGE MANAGER
         this.entityStorageManager = new EntityStorageManager(this);
 
+        //Item Builder events
+        itemEvents = new ItemEvents();
+        addListener(new ItemEventsListener(this));
 
         onEnableHojaPlugin();
 
@@ -59,9 +74,7 @@ public class HojaPlugin extends JavaPlugin implements HojaPluginI {
         }
 
 
-
         enableTime = (System.currentTimeMillis() - enableTime);
-
 
         onPostEnableHojaPlugin();
         log("&7*- &9Plugin Finished Loading &7(" + enableTime + "ms) *-");
