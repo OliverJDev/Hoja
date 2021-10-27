@@ -12,13 +12,12 @@ public class Entity<E> implements Identified{
 
     private String id = "";
     private String name = "";
-    protected String type;
+    private String type = this.getClass().getSimpleName();
 
     public Entity(){
 
     }
     public Entity(String id, String name, HojaPlugin plugin){
-
         setType(getClass().getSimpleName());
         setId(id);
         setName(name);

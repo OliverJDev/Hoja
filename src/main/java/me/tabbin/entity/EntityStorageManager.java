@@ -29,9 +29,7 @@ public class EntityStorageManager implements EntityStorageManagerI{
     public void addEntity(Entity entity){
 
         if(entityStorages.containsKey(entity.getClass())){
-            if(entity.getId().equalsIgnoreCase("")){
-                entityStorages.get(entity.getClass()).addEntity(entity, entity.getName());
-            }else{
+            if (!entityStorages.get(entity.getClass()).getAll().containsKey(entity.getId())) {
                 entityStorages.get(entity.getClass()).addEntity(entity, entity.getId());
             }
         }else{
@@ -51,7 +49,6 @@ public class EntityStorageManager implements EntityStorageManagerI{
 
     @Override
     public void addEntityType(Class type) {
-
         getEntityTypesRegister().add(type);
     }
 }
