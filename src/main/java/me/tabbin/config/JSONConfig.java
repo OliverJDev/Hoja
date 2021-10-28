@@ -9,7 +9,6 @@ import me.tabbin.entity.Entity;
 import me.tabbin.entity.adapters.LocationAdapter;
 import me.tabbin.entity.adapters.RuntimeTypeAdapterFactory;
 import org.bukkit.Location;
-import org.bukkit.configuration.file.FileConfiguration;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -45,9 +44,9 @@ public class JSONConfig {
             runtimeTypeAdapterFactory = runtimeTypeAdapterFactory.registerSubtype(entityClass, entityClass.getSimpleName());
         }
 
-
         gson = new GsonBuilder().setPrettyPrinting()
                 .registerTypeAdapter(Location.class, new LocationAdapter())
+                //.registerTypeAdapter(HGUIDesign.class, new HGUIDesignAdapter())
                 .registerTypeAdapterFactory(runtimeTypeAdapterFactory)
                 .create();
 

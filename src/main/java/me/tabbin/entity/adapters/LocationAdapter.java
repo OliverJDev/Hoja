@@ -1,11 +1,14 @@
 package me.tabbin.entity.adapters;
 
 import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -32,6 +35,7 @@ public class LocationAdapter implements JsonDeserializer<Location>, JsonSerializ
         final JsonElement z = obj.get( "z" );
         final JsonElement yaw = obj.get( "yaw" );
         final JsonElement pitch = obj.get( "pitch" );
+
 
         if ( world == null || x == null || y == null || z == null || yaw == null || pitch == null ) {
             throw new JsonParseException( "Malformed location json string!" );

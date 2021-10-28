@@ -21,7 +21,6 @@ public class Entity<E> implements Identified{
         setType(getClass().getSimpleName());
         setId(id);
         setName(name);
-        setType(type);
         plugin.getEntityStorageManager().addEntity(this);
 
     }

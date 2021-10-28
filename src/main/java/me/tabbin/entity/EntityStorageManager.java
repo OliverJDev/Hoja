@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 import me.tabbin.HojaPlugin;
 import me.tabbin.HojaPluginI;
-import me.tabbin.entity.test.TestEntity;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -26,7 +25,11 @@ public class EntityStorageManager implements EntityStorageManagerI{
         instance = plugin;
     }
 
+
     public void addEntity(Entity entity){
+        if (entity.getType() == null || entity.getType().equalsIgnoreCase("")) {
+            entity.setType(entity.getClass().getSimpleName());
+        }
 
         if(entityStorages.containsKey(entity.getClass())){
             if (!entityStorages.get(entity.getClass()).getAll().containsKey(entity.getId())) {

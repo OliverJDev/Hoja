@@ -3,6 +3,7 @@ package me.tabbin.itembuilder;
 import de.tr7zw.nbtapi.NBTItem;
 import me.tabbin.HojaPlugin;
 import me.tabbin.itembuilder.events.ItemEvent;
+import me.tabbin.util.Utility;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -46,7 +47,18 @@ public class ItemBuilder {
     public ItemBuilder(Material m, int amount){
         is= new ItemStack(m, amount);
     }
+
+    public ItemBuilder(Material m, String name){
+        is= new ItemStack(m);
+        setName(name);
+    }
+    public ItemBuilder(Material m, String name, int amount){
+        is= new ItemStack(m, amount);
+        setName(name);
+    }
+
     /**
+     *
      * Create a new ItemBuilder from scratch.
      * @param m The material of the item.
      * @param amount The amount of the item.
@@ -76,7 +88,7 @@ public class ItemBuilder {
      */
     public ItemBuilder setName(String name){
         ItemMeta im = is.getItemMeta();
-        im.setDisplayName(name);
+        im.setDisplayName(Utility.addColor(name));
         is.setItemMeta(im);
         return this;
     }
@@ -151,6 +163,9 @@ public class ItemBuilder {
      */
     public ItemBuilder setLore(List<String> lore) {
         ItemMeta im = is.getItemMeta();
+        for (int i = 0; i < lore.size(); i++) {
+            lore.set(i, Utility.addColor(lore.get(i)));
+        }
         im.setLore(lore);
         is.setItemMeta(im);
         return this;
@@ -233,6 +248,19 @@ public class ItemBuilder {
         plugin.getItemEvents().addClick(event.getKey(), event);
         NBTItem nbtItem = new NBTItem(is);
         nbtItem.setBoolean(event.getKey(), true);
+        is = nbtItem.getItem();
+        return this;
+    }
+
+    public ItemBuilder addNBTBoolean(String val){
+        NBTItem nbtItem = new NBTItem(is);
+        nbtItem.setBoolean(val, true);
+        is = nbtItem.getItem();
+        return this;
+    }
+    public ItemBuilder addNBTString(String val, String string){
+        NBTItem nbtItem = new NBTItem(is);
+        nbtItem.setString(val, string);
         is = nbtItem.getItem();
         return this;
     }

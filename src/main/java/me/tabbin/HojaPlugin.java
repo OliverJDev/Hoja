@@ -5,11 +5,11 @@ import me.tabbin.commands.HojaCommandRegister;
 import me.tabbin.commands.commands.TestCommand;
 import me.tabbin.config.configs.MessageConfig;
 import me.tabbin.entity.EntityStorageManager;
-import me.tabbin.entity.test.TestEntity;
 import me.tabbin.itembuilder.ItemBuilder;
 import me.tabbin.itembuilder.ItemEvents;
 import me.tabbin.itembuilder.ItemEventsListener;
 import me.tabbin.itembuilder.events.ItemClickEvent;
+import me.tabbin.itembuilder.events.ItemEvent;
 import me.tabbin.util.Utility;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -57,6 +57,7 @@ public class HojaPlugin extends JavaPlugin implements HojaPluginI {
 
         //ENTITY STORAGE MANAGER
         this.entityStorageManager = new EntityStorageManager(this);
+        getEntityStorageManager().addEntityType(ItemClickEvent.class);
 
         //Item Builder events
         itemEvents = new ItemEvents();
@@ -72,7 +73,6 @@ public class HojaPlugin extends JavaPlugin implements HojaPluginI {
         for (Listener listener : listeners) {
             this.getServer().getPluginManager().registerEvents(listener, this);
         }
-
 
         enableTime = (System.currentTimeMillis() - enableTime);
 
@@ -102,7 +102,6 @@ public class HojaPlugin extends JavaPlugin implements HojaPluginI {
          */
         new TestCommand();
         this.messageConfig = new MessageConfig(this);
-
 
     }
 
