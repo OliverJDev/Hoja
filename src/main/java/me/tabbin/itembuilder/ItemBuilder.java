@@ -87,6 +87,9 @@ public class ItemBuilder {
      * @param name The name to change it to.
      */
     public ItemBuilder setName(String name){
+        if(name.equals("")){
+            name = " ";
+        }
         ItemMeta im = is.getItemMeta();
         im.setDisplayName(Utility.addColor(name));
         is.setItemMeta(im);

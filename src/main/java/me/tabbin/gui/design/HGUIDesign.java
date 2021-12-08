@@ -41,7 +41,7 @@ public class HGUIDesign implements HGUIDesignBuildI, ConfigurationSerializable {
         Inventory inventory = Bukkit.createInventory(null, size, Utility.addColor(title));
         for (int i = 0; i < size; i++) {
             int row = (int) Math.ceil(i / 9);
-            inventory.setItem(i, key.get(slots.get(row)).toItemStack());
+            inventory.setItem(i, key.get(slots.get(i)).toItemStack());
         }
         return inventory;
     }

@@ -31,19 +31,39 @@ public class EntityStorageManager implements EntityStorageManagerI{
             entity.setType(entity.getClass().getSimpleName());
         }
 
-        if(entityStorages.containsKey(entity.getClass())){
-            if (!entityStorages.get(entity.getClass()).getAll().containsKey(entity.getId())) {
-                entityStorages.get(entity.getClass()).addEntity(entity, entity.getId());
+
+        /*
+        This essentially finds the class extneding the super class of entity
+         */
+        Class mainExtendingClass = entity.getClass();
+        boolean isExtending = false;
+
+
+        while(!isExtending){
+            if (mainExtendingClass.getSuperclass() == null){
+                return;
+            }
+            if(mainExtendingClass.getSuperclass().getSimpleName().equals("Entity")){
+                isExtending = true;
+            }else{
+                mainExtendingClass = mainExtendingClass.getSuperclass();
+            }
+        }
+
+
+        if(entityStorages.containsKey(mainExtendingClass)){
+            if (!entityStorages.get(mainExtendingClass).getAll().containsKey(entity.getId())) {
+                entityStorages.get(mainExtendingClass).addEntity(entity, entity.getId());
             }
         }else{
-            entityStorages.put(entity.getClass(), new EntityStorage(instance, entity.getClass().getSuperclass()));
+            entityStorages.put(mainExtendingClass, new EntityStorage(instance, mainExtendingClass));
             addEntity(entity);
         }
 
     }
 
     @Override
-    public void sync() {
+    public void syncAll() {
         for (Map.Entry<Class, EntityStorage> classEntityStorageEntry : getEntityStorages().entrySet()) {
             EntityStorage storage = classEntityStorageEntry.getValue();
             storage.getConfig().write(storage.getAll());

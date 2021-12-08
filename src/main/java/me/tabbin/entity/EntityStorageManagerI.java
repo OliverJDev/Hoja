@@ -8,6 +8,6 @@ import java.util.LinkedList;
 
 public interface EntityStorageManagerI {
     LinkedHashMap<Class, EntityStorage>  getEntityStorages();
-    void sync();
+    void syncAll();
     void addEntityType(Class<Entity> type);
 }

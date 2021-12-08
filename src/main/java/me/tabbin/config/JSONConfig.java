@@ -60,6 +60,7 @@ public class JSONConfig {
         if (!directoryFile.exists()) directoryFile.mkdir();
         //Creates the file
         file = new File(directoryFile.getPath() + "/" + name + ".json");
+        file.getParentFile().mkdirs();
 
         try {
             if (!file.exists()) file.createNewFile();

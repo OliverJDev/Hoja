@@ -87,7 +87,7 @@ public class HojaPlugin extends JavaPlugin implements HojaPluginI {
         log("&7*- &9Plugin Disabling &7*-");
 
         //SAVE DATA
-        getEntityStorageManager().sync();
+        //getEntityStorageManager().sync();
         onDisableHojaPlugin();
         disableTime = (System.currentTimeMillis() - disableTime);
         onPostDisableHojaPlugin();

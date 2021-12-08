@@ -29,6 +29,7 @@ public class EntityStorage implements EntityStorageI {
         if(entityList == null){entityList = new HashMap<>();}
     }
 
+
     @Override
     public void addEntity(Entity entity, String id) {
         entityList.put(id, entity);
@@ -42,5 +43,10 @@ public class EntityStorage implements EntityStorageI {
     @Override
     public Entity get(String id) {
         return entityList.get(id);
+    }
+
+    @Override
+    public void sync() {
+        config.write(getAll());
     }
 }

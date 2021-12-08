@@ -4,6 +4,7 @@ import lombok.*;
 import me.tabbin.gui.design.HGUIDesign;
 import me.tabbin.itembuilder.ItemBuilder;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.SerializableAs;
 import org.bukkit.enchantments.Enchantment;
@@ -36,13 +37,21 @@ public class ItemStackWrapper implements ConfigurationSerializable {
         if (material == null) {
             return null;
         }
-        ItemBuilder item = new ItemBuilder(Material.valueOf(material));
+        ItemBuilder item = new ItemBuilder(Material.valueOf(material.toUpperCase()));
+        if(material.equals("AIR")){
+            return item.toItemStack();
+        }
         if (amount != 0) {
             item = new ItemBuilder(Material.valueOf(material), amount);
         }
         if (enchants != null) {
             HashMap<Enchantment, Integer> map = new HashMap();
-            item.addEnchantments(map);
+            enchants.forEach((k,v)->{
+                if(k != null && Enchantment.getByKey(NamespacedKey.fromString(k)) != null){
+                    map.put(Enchantment.getByKey(NamespacedKey.fromString(k)), v);
+                }
+            });
+            map.forEach(item::addUnsafeEnchantment);
         }
         if (name != null) {
             item.setName(name);
