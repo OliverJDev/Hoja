@@ -1,15 +1,22 @@
 package me.tabbin.wrapper;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import lombok.*;
 import me.tabbin.gui.design.HGUIDesign;
 import me.tabbin.itembuilder.ItemBuilder;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.SerializableAs;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -27,17 +34,20 @@ public class ItemStackWrapper implements ConfigurationSerializable {
     private short damage;
     private int amount;
     private String name;
+    private String skullName;
     private Map<String, Integer> enchants;
     private Map<String, String> nbtMap;
     private Set<ItemFlag> itemFlags;
     private List<String> lore;
     private Boolean unbreakable;
+    private HashMap<Attribute, AttributeModifier> attributeModifiers = new HashMap<>();
 
     public ItemStack toItemStack() {
         if (material == null) {
             return null;
         }
         ItemBuilder item = new ItemBuilder(Material.valueOf(material.toUpperCase()));
+
         if(material.equals("AIR")){
             return item.toItemStack();
         }
@@ -60,7 +70,18 @@ public class ItemStackWrapper implements ConfigurationSerializable {
             item.setLore(lore);
         }
 
-        return item.toItemStack();
+        ItemStack itemStack = item.toItemStack();
+        ItemMeta meta = itemStack.getItemMeta();
+        if(getAttributeModifiers() !=null)getAttributeModifiers().forEach(meta::addAttributeModifier);
+        itemStack.setItemMeta(meta);
+
+
+        if(skullName !=null){
+            SkullMeta headItemMeta = (SkullMeta) itemStack.getItemMeta();
+            headItemMeta.setOwningPlayer(Bukkit.getOfflinePlayer(skullName));
+            itemStack.setItemMeta(headItemMeta);
+        }
+        return itemStack;
     }
 
     @Override

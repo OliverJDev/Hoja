@@ -27,6 +27,8 @@ public abstract class HojaCommand implements PluginIdentifiableCommand, HojaComm
 
     private List<Parameter<?>> parameters = new ArrayList<>();
 
+    private List<String> arguments;
+
     public HojaCommand(String command) {
         HojaCommandRegister.getAllCommands().add(this);
         getCommands().add(command.toLowerCase());
@@ -40,6 +42,11 @@ public abstract class HojaCommand implements PluginIdentifiableCommand, HojaComm
 
     public <T> void addParameter(T defaultType, PTypeI<T> type, String name){
         getParameters().add(new Parameter<>(defaultType, type, name));
+    }
+
+    public <T> T readArg(int pos){
+        Parameter<T> parameter = (Parameter<T>) parameters.get(pos);
+        return parameter.getType().parse(this, arguments.get(pos));
     }
 
     @Override

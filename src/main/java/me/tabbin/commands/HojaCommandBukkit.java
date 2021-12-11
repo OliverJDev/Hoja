@@ -12,7 +12,6 @@ import org.bukkit.command.PluginIdentifiableCommand;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.command.defaults.PluginsCommand;
-import org.bukkit.craftbukkit.libs.org.apache.commons.codec.language.bm.Lang;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
@@ -36,10 +35,12 @@ public class HojaCommandBukkit extends BukkitCommand implements PluginIdentifiab
         setLabel(command);
         setUsage("/" + command);
         setHojaCommand(hojaCommand);
+
     }
 
     @Override
     public boolean execute(CommandSender sender, String s, String[] args) {
+        getHojaCommand().setArguments(Arrays.asList(args));
         getHojaCommand().setSender((Player) sender);
         //check arguments
         for (int i = 0; i < getHojaCommand().getParameters().size(); i++) {
@@ -69,11 +70,11 @@ public class HojaCommandBukkit extends BukkitCommand implements PluginIdentifiab
         if (rawArgs == null) throw new IllegalArgumentException("args must not be null");
         if (alias == null) throw new IllegalArgumentException("args must not be null");
 
-        return new ArrayList<>(Arrays.asList("yo", "2", "451", "12"));
+        return new ArrayList<>(Arrays.asList("Example String"));
     }
 
     @Override
     public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] strings) {
-        return new ArrayList<>(Arrays.asList("yo", "2", "451", "12"));
+        return new ArrayList<>(Arrays.asList("Example String"));
     }
 }

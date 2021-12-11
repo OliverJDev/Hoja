@@ -7,21 +7,21 @@ import me.tabbin.config.JSONConfig;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class EntityStorage implements EntityStorageI {
-
     @Getter
     private Class<Entity> type;
 
     private Map<String, Entity> entityList;
+
     @Getter
     private JSONConfig config;
     public EntityStorage(HojaPlugin instance, Class type){
         this.type = type;
         instance.getEntityStorageManager().getEntityStorages().put(type, this);
-        config = new JSONConfig(instance, type.getSimpleName(), "data");
+        config = new JSONConfig(instance, type, "data");
+
 
         Type listType = new TypeToken<Map<String, Entity>>(){}.getType();
 

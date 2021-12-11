@@ -2,7 +2,6 @@ package me.tabbin.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import me.tabbin.HojaPlugin;
 import me.tabbin.Identified;
 
@@ -22,7 +21,6 @@ public class Entity<E> implements Identified{
         setId(id);
         setName(name);
         plugin.getEntityStorageManager().addEntity(this);
-
     }
 
     public Entity(HojaPlugin plugin, String id){

@@ -2,7 +2,6 @@ package me.tabbin.commands.parameters;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.minecraft.world.level.storage.loot.functions.LootItemFunctionSetName;
 @Getter @Setter
 public class Parameter<T> {
 

@@ -2,24 +2,15 @@ package me.tabbin;
 
 import lombok.Getter;
 import me.tabbin.commands.HojaCommandRegister;
-import me.tabbin.commands.commands.TestCommand;
 import me.tabbin.config.configs.MessageConfig;
 import me.tabbin.entity.EntityStorageManager;
-import me.tabbin.itembuilder.ItemBuilder;
 import me.tabbin.itembuilder.ItemEvents;
 import me.tabbin.itembuilder.ItemEventsListener;
 import me.tabbin.itembuilder.events.ItemClickEvent;
-import me.tabbin.itembuilder.events.ItemEvent;
 import me.tabbin.util.Utility;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,7 +91,6 @@ public class HojaPlugin extends JavaPlugin implements HojaPluginI {
         /*
         Tests objects / classes
          */
-        new TestCommand();
         this.messageConfig = new MessageConfig(this);
 
     }

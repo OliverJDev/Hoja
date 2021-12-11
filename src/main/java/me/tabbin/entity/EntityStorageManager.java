@@ -1,11 +1,7 @@
 package me.tabbin.entity;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import lombok.Getter;
-import lombok.Setter;
 import me.tabbin.HojaPlugin;
-import me.tabbin.HojaPluginI;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -26,14 +22,33 @@ public class EntityStorageManager implements EntityStorageManagerI{
     }
 
 
+    @Override
+    public void loadAll(Class type) {
+        Class mainExtendingClass = type;
+        boolean isExtending = false;
+
+
+        while(!isExtending){
+            if (mainExtendingClass.getSuperclass() == null){
+                return;
+            }
+            if(mainExtendingClass.getSuperclass().getSimpleName().equals("Entity")){
+                isExtending = true;
+            }else{
+                mainExtendingClass = mainExtendingClass.getSuperclass();
+            }
+        }
+        if(mainExtendingClass != null)  entityStorages.put(mainExtendingClass, new EntityStorage(instance, mainExtendingClass));
+    }
+
     public void addEntity(Entity entity){
+
         if (entity.getType() == null || entity.getType().equalsIgnoreCase("")) {
             entity.setType(entity.getClass().getSimpleName());
         }
 
-
         /*
-        This essentially finds the class extneding the super class of entity
+        This essentially finds the class extending the super class of entity
          */
         Class mainExtendingClass = entity.getClass();
         boolean isExtending = false;
@@ -59,7 +74,6 @@ public class EntityStorageManager implements EntityStorageManagerI{
             entityStorages.put(mainExtendingClass, new EntityStorage(instance, mainExtendingClass));
             addEntity(entity);
         }
-
     }
 
     @Override
@@ -69,6 +83,7 @@ public class EntityStorageManager implements EntityStorageManagerI{
             storage.getConfig().write(storage.getAll());
         }
     }
+
 
     @Override
     public void addEntityType(Class type) {

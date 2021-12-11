@@ -9,5 +9,6 @@ import java.util.LinkedList;
 public interface EntityStorageManagerI {
     LinkedHashMap<Class, EntityStorage>  getEntityStorages();
     void syncAll();
+    void loadAll(Class type);
     void addEntityType(Class<Entity> type);
 }

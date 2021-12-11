@@ -6,6 +6,7 @@ import com.google.gson.stream.JsonReader;
 import lombok.Getter;
 import me.tabbin.HojaPlugin;
 import me.tabbin.entity.Entity;
+import me.tabbin.entity.adapters.EntityAdapter;
 import me.tabbin.entity.adapters.LocationAdapter;
 import me.tabbin.entity.adapters.RuntimeTypeAdapterFactory;
 import org.bukkit.Location;
@@ -29,8 +30,7 @@ public class JSONConfig {
     private Gson gson;
     private HojaPlugin plugin;
 
-
-    public JSONConfig(HojaPlugin plugin, String name, String directory) {
+    public JSONConfig(HojaPlugin plugin, Class type, String directory) {
         this.plugin = plugin;
 
         /*
@@ -46,13 +46,15 @@ public class JSONConfig {
 
         gson = new GsonBuilder().setPrettyPrinting()
                 .registerTypeAdapter(Location.class, new LocationAdapter())
+               //
+                //.registerTypeAdapter(type, new EntityAdapter(plugin, type))
                 //.registerTypeAdapter(HGUIDesign.class, new HGUIDesignAdapter())
                 .registerTypeAdapterFactory(runtimeTypeAdapterFactory)
                 .create();
 
-        HojaPlugin.getHojaPlugin().log("Loading Config (" + name + ".json)");
+        HojaPlugin.getHojaPlugin().log("Loading Config (" + type.getSimpleName() + ".json)");
 
-        createDirectory(name, directory);
+        createDirectory(type.getSimpleName(), directory);
     }
 
     private void createDirectory(String name, String directory) {
