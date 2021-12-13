@@ -70,11 +70,16 @@ public class HojaCommandBukkit extends BukkitCommand implements PluginIdentifiab
         if (rawArgs == null) throw new IllegalArgumentException("args must not be null");
         if (alias == null) throw new IllegalArgumentException("args must not be null");
 
-        return new ArrayList<>(Arrays.asList("Example String"));
+        if(hojaCommand.getParameters().size() > rawArgs.length -1 ){
+            Parameter<?> parameter = hojaCommand.getParameters().get(rawArgs.length - 1);
+            return parameter.getType().getTabList();
+        }else{
+            return new ArrayList<>();
+        }
     }
 
     @Override
     public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] strings) {
-        return new ArrayList<>(Arrays.asList("Example String"));
+        return new ArrayList<>();
     }
 }

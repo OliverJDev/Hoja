@@ -1,5 +1,6 @@
 package me.tabbin.util;
 
+import me.tabbin.enums.DefaultFontInfo;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -23,7 +24,55 @@ public class MessageUtil {
         }
         return newString;
     }
+    private final static int CENTER_PX = 154;
 
+    public static void sendCenteredMessage(Player player, String message, int add, int remove){
+        if(message == null || message.equals("")) player.sendMessage("");
+        message = Utility.addColor(message);
+
+        int messagePxSize = 0;
+        boolean previousCode = false;
+        boolean isBold = false;
+
+        for(char c : message.toCharArray()){
+            if(c == '§'){
+                previousCode = true;
+                continue;
+            }else if(previousCode == true){
+                previousCode = false;
+                if(c == 'l' || c == 'L'){
+                    isBold = true;
+                    continue;
+                }else isBold = false;
+            }else{
+                DefaultFontInfo dFI = DefaultFontInfo.getDefaultFontInfo(c);
+                messagePxSize += isBold ? dFI.getBoldLength() : dFI.getLength();
+                messagePxSize++;
+            }
+        }
+
+        int center = CENTER_PX;
+        center+=add;
+        center-=remove;
+        int halvedMessageSize = messagePxSize / 2;
+        int toCompensate = center - halvedMessageSize;
+        int spaceLength = DefaultFontInfo.SPACE.getLength() + 1;
+        int compensated = 0;
+        StringBuilder sb = new StringBuilder();
+        while(compensated < toCompensate){
+            sb.append(" ");
+            compensated += spaceLength;
+        }
+        player.sendMessage(sb.toString() + message);
+    }
+
+    public static void msg(Player player, String message){
+        player.sendMessage(Utility.addColor(message));
+    }
+
+    public static void msg(CommandSender player, String message){
+        player.sendMessage(Utility.addColor(message));
+    }
     public static void msgAll(String config){
         msgAll(config, "");
     }

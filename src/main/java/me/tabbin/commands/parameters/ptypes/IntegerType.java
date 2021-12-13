@@ -38,7 +38,7 @@ public class IntegerType implements PTypeI<Integer> {
 
     @Override
     public List<String> getTabList() {
-        return new ArrayList<>(Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10"));
+        return new ArrayList<>(Arrays.asList("10", "100", "1000", "10000"));
     }
 
     private boolean isInteger(String args){

@@ -10,6 +10,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginIdentifiableCommand;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import java.util.Locale;
 public abstract class HojaCommand implements PluginIdentifiableCommand, HojaCommandI {
 
     private CommandSender sender;
+    private Player player;
     // The commands the plugin will react to ie /help, /helps, /helper etc..
     private List<String> commands = new ArrayList<>();
 
@@ -33,11 +35,26 @@ public abstract class HojaCommand implements PluginIdentifiableCommand, HojaComm
         HojaCommandRegister.getAllCommands().add(this);
         getCommands().add(command.toLowerCase());
         setSender(getSender());
+        if(getSender() instanceof Player){
+            setPlayer((Player) getSender());
+        }
     }
 
+    public HojaCommand(String... commands) {
+        HojaCommandRegister.getAllCommands().add(this);
+        if (commands != null) setCommands(Arrays.asList(commands));
+        setSender(getSender());
+        if(getSender() instanceof Player){
+            setPlayer((Player) getSender());
+        }
+    }
     public HojaCommand(List<String> commands) {
         HojaCommandRegister.getAllCommands().add(this);
         if (commands != null) setCommands(commands);
+        setSender(getSender());
+        if(getSender() instanceof Player){
+            setPlayer((Player) getSender());
+        }
     }
 
     public <T> void addParameter(T defaultType, PTypeI<T> type, String name){
@@ -59,6 +76,9 @@ public abstract class HojaCommand implements PluginIdentifiableCommand, HojaComm
         MessageUtil.msgConfig(sender, config, args);
     }
 
+    public void msgSender(String message){
+        MessageUtil.msg(sender, message);
+    }
     @Override
     public String getCorrectUsage() {
         StringBuilder parameters = new StringBuilder();
