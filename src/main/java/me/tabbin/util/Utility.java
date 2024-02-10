@@ -36,6 +36,10 @@ public class Utility {
         Random random = new Random();
         return random.nextInt(99) + 1 <= minimalChance;
     }
+    public static boolean getChanceHigher(int minimalChance) {
+        Random random = new Random();
+        return random.nextInt(1000) + 1 <= minimalChance;
+    }
 
 
     public static int getWordCount(String message, String word) {

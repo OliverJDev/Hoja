@@ -27,7 +27,6 @@ public class EntityStorageManager implements EntityStorageManagerI{
         Class mainExtendingClass = type;
         boolean isExtending = false;
 
-
         while(!isExtending){
             if (mainExtendingClass.getSuperclass() == null){
                 return;

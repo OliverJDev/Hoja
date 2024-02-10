@@ -9,6 +9,7 @@ public class Parameter<T> {
     private String description;
     private String name;
     private T defaultValue;
+    private boolean concat = false;
 
     public Parameter(PTypeI<T> type){
         setType(type);

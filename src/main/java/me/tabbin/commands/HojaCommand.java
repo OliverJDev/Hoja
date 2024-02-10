@@ -61,9 +61,26 @@ public abstract class HojaCommand implements PluginIdentifiableCommand, HojaComm
         getParameters().add(new Parameter<>(defaultType, type, name));
     }
 
+    public <T> void addParameter(T defaultType, PTypeI<T> type, String name, boolean concatenateFromHere){
+        Parameter<?> param = new Parameter<>(defaultType, type, name);
+        param.setConcat(true);
+        getParameters().add(param);
+    }
     public <T> T readArg(int pos){
         Parameter<T> parameter = (Parameter<T>) parameters.get(pos);
-        return parameter.getType().parse(this, arguments.get(pos));
+        String arg = arguments.get(pos);
+        if(parameter.isConcat()){
+            StringBuilder concatted = new StringBuilder();
+            for (int j = pos; j < arguments.size(); j++) {
+                if(pos != j){
+                    concatted.append(" ");
+                }
+                concatted.append(arguments.get(j));
+            }
+            arg = concatted.toString();
+        }
+
+        return parameter.getType().parse(this, arg);
     }
 
     @Override

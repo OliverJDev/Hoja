@@ -15,5 +15,6 @@ public interface HojaPluginI {
     void log(String msg);
 
     void addListener(Listener listener);
+    void addStorageCommand(String command, HojaPlugin plugin);
 
 }

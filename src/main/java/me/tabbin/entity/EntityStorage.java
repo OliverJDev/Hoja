@@ -21,10 +21,7 @@ public class EntityStorage implements EntityStorageI {
         this.type = type;
         instance.getEntityStorageManager().getEntityStorages().put(type, this);
         config = new JSONConfig(instance, type, "data");
-
-
         Type listType = new TypeToken<Map<String, Entity>>(){}.getType();
-
         entityList = config.read(listType);
         if(entityList == null){entityList = new HashMap<>();}
     }

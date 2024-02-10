@@ -1,11 +1,14 @@
 package me.tabbin.itembuilder;
 
+import de.tr7zw.nbtapi.NBT;
 import de.tr7zw.nbtapi.NBTItem;
 import me.tabbin.HojaPlugin;
 import me.tabbin.itembuilder.events.ItemEvent;
 import me.tabbin.util.Utility;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -50,11 +53,11 @@ public class ItemBuilder {
 
     public ItemBuilder(Material m, String name){
         is= new ItemStack(m);
-        setName(name);
+        setName(Utility.addColor(name));
     }
     public ItemBuilder(Material m, String name, int amount){
         is= new ItemStack(m, amount);
-        setName(name);
+        setName(Utility.addColor(name));
     }
 
     /**
@@ -207,8 +210,19 @@ public class ItemBuilder {
         ItemMeta im = is.getItemMeta();
         List<String> lore = new ArrayList<>();
         if(im.hasLore())lore = new ArrayList<>(im.getLore());
-        lore.add(line);
+        lore.add(Utility.addColor(line));
         im.setLore(lore);
+        is.setItemMeta(im);
+        return this;
+    }
+
+    /**
+     * Set Custom Meta Data
+     * @param data The data being set to
+     */
+    public ItemBuilder setCustomModelData(Integer data){
+        ItemMeta im = is.getItemMeta();
+        im.setCustomModelData(data);
         is.setItemMeta(im);
         return this;
     }
@@ -220,12 +234,11 @@ public class ItemBuilder {
     public ItemBuilder addLoreLine(String line, int pos){
         ItemMeta im = is.getItemMeta();
         List<String> lore = new ArrayList<>(im.getLore());
-        lore.set(pos, line);
+        lore.set(pos, Utility.addColor(line));
         im.setLore(lore);
         is.setItemMeta(im);
         return this;
     }
-
 
     /**
      * Sets the armor color of a leather armor piece. Works only on leather armor pieces.
@@ -256,15 +269,15 @@ public class ItemBuilder {
     }
 
     public ItemBuilder addNBTBoolean(String val){
-        NBTItem nbtItem = new NBTItem(is);
-        nbtItem.setBoolean(val, true);
-        is = nbtItem.getItem();
+        NBT.modify(is, nbt->{
+            nbt.setBoolean(val, true);
+        });
         return this;
     }
     public ItemBuilder addNBTString(String val, String string){
-        NBTItem nbtItem = new NBTItem(is);
-        nbtItem.setString(val, string);
-        is = nbtItem.getItem();
+        NBT.modify(is, nbt->{
+            nbt.setString(val, string);
+        });
         return this;
     }
 

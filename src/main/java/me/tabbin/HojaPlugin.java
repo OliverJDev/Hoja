@@ -2,6 +2,7 @@ package me.tabbin;
 
 import lombok.Getter;
 import me.tabbin.commands.HojaCommandRegister;
+import me.tabbin.commands.commands.EntityStorageInfoCommand;
 import me.tabbin.config.configs.MessageConfig;
 import me.tabbin.entity.EntityStorageManager;
 import me.tabbin.itembuilder.ItemEvents;
@@ -58,7 +59,6 @@ public class HojaPlugin extends JavaPlugin implements HojaPluginI {
 
         //COMMAND REGISTER
         new HojaCommandRegister();
-
 
         //LISTENERS
         for (Listener listener : listeners) {
@@ -121,5 +121,8 @@ public class HojaPlugin extends JavaPlugin implements HojaPluginI {
         listeners.add(listener);
     }
 
-
+    @Override
+    public void addStorageCommand(String alias, HojaPlugin plugin){
+        new EntityStorageInfoCommand(alias,plugin);
+    }
 }

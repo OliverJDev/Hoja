@@ -19,8 +19,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Getter @Setter
+@Getter
+@Setter
 public class HojaCommandBukkit extends BukkitCommand implements PluginIdentifiableCommand, TabCompleter {
 
     @Override
@@ -42,17 +44,20 @@ public class HojaCommandBukkit extends BukkitCommand implements PluginIdentifiab
     public boolean execute(CommandSender sender, String s, String[] args) {
         getHojaCommand().setArguments(Arrays.asList(args));
         getHojaCommand().setSender((Player) sender);
+        if(sender != null){
+            getHojaCommand().setPlayer((Player) sender);
+        }
         //check arguments
         for (int i = 0; i < getHojaCommand().getParameters().size(); i++) {
-            if(i >= args.length){
+            if (i >= args.length) {
                 //missing argument
                 MessageUtil.msgConfig(sender, MessageConfig.get().MissingArgumentCommand, hojaCommand.getCorrectUsage(), getHojaCommand().getParameters().get(i).getName());
                 return true;
-            }else{
-                //check correct type
-                if(getHojaCommand().getParameters().get(i).getType().parse(getHojaCommand(), args[i]) == null){
+            } else {
+                if (getHojaCommand().getParameters().get(i).getType().parse(getHojaCommand(), args[i]) == null) {
                     return true;
                 }
+
             }
         }
 
@@ -62,18 +67,17 @@ public class HojaCommandBukkit extends BukkitCommand implements PluginIdentifiab
 
 
     @Override
-    public List<String> tabComplete(CommandSender sender, String alias, String[] rawArgs) throws IllegalArgumentException
-    {
+    public List<String> tabComplete(CommandSender sender, String alias, String[] rawArgs) throws IllegalArgumentException {
         // The JavaDocs for Command says these checks will be made.
         // So we should follow that contract.
         if (sender == null) throw new IllegalArgumentException("sender must not be null");
         if (rawArgs == null) throw new IllegalArgumentException("args must not be null");
         if (alias == null) throw new IllegalArgumentException("args must not be null");
 
-        if(hojaCommand.getParameters().size() > rawArgs.length -1 ){
+        if (hojaCommand.getParameters().size() > rawArgs.length - 1) {
             Parameter<?> parameter = hojaCommand.getParameters().get(rawArgs.length - 1);
-            return parameter.getType().getTabList();
-        }else{
+            return parameter.getType().getTabList().stream().filter(s-> s.toUpperCase().startsWith(rawArgs[rawArgs.length-1].toUpperCase())).collect(Collectors.toList());
+        } else {
             return new ArrayList<>();
         }
     }
